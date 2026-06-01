@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I'm Batman 🦇</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Orbitron:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background: #0a0a0a;
+        font-family: "Raleway", sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 50% 0%,
+            rgba(255, 215, 0, 0.07) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse at 15% 80%,
+            rgba(255, 215, 0, 0.04) 0%,
+            transparent 45%
+          ),
+          radial-gradient(
+            ellipse at 85% 70%,
+            rgba(233, 69, 96, 0.04) 0%,
+            transparent 45%
+          ),
+          linear-gradient(180deg, #0a0a0a 0%, #0d0d1a 60%, #0a0a0a 100%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 215, 0, 0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 215, 0, 0.025) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .bat-fly {
+        position: fixed;
+        pointer-events: none;
+        z-index: 1;
+        font-size: 18px;
+        opacity: 0;
+        animation: bat-across linear infinite;
+      }
+      @keyframes bat-across {
+        0% {
+          transform: translateX(-80px) translateY(0px) scaleX(1);
+          opacity: 0;
+        }
+        5% {
+          opacity: 0.18;
+        }
+        48% {
+          transform: translateX(48vw) translateY(-30px) scaleX(1);
+        }
+        52% {
+          transform: translateX(52vw) translateY(-30px) scaleX(-1);
+        }
+        95% {
+          opacity: 0.18;
+        }
+        100% {
+          transform: translateX(calc(100vw + 80px)) translateY(10px) scaleX(-1);
+          opacity: 0;
+        }
+      }
+
+      .screen {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        padding: 24px;
+        opacity: 0;
+        transform: scale(0.94) translateY(18px);
+        pointer-events: none;
+        transition:
+          opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .screen.active {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        pointer-events: all;
+      }
+      .screen.exit-up {
+        opacity: 0;
+        transform: scale(1.04) translateY(-24px);
+        pointer-events: none;
+      }
+
+      .card {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 16, 32, 0.97) 0%,
+          rgba(22, 28, 50, 0.97) 100%
+        );
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 28px;
+        max-width: 560px;
+        width: 100%;
+        padding: 48px 40px 40px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 0 60px rgba(0, 0, 0, 0.8),
+          0 0 0 1px rgba(255, 215, 0, 0.05);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #ffd700 40%,
+          #ffa500 60%,
+          transparent
+        );
+      }
+
+      .bat-signal {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 215, 0, 0.15) 0%,
+          rgba(255, 215, 0, 0.04) 50%,
+          transparent 70%
+        );
+        border: 2px solid rgba(255, 215, 0, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        animation: sig-pulse 3s ease-in-out infinite;
+        position: relative;
+      }
+      .bat-signal::after {
+        content: "";
+        position: absolute;
+        inset: -10px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        animation: sig-pulse 3s ease-in-out infinite reverse;
+      }
+      @keyframes sig-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.7;
+        }
+      }
+
+      .step-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 215, 0, 0.08);
+        border: 1px solid rgba(255, 215, 0, 0.25);
+        border-radius: 100px;
+        padding: 4px 14px;
+        font-family: "Orbitron", sans-serif;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: rgba(255, 215, 0, 0.7);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .btn-yes {
+        background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        color: #0a0a0a;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 900;
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 50px;
+        padding: 16px 32px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 24px rgba(255, 215, 0, 0.35);
+      }
+      .btn-yes:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5);
+      }
+      .btn-yes:active {
+        transform: scale(0.97);
+      }
+
+      .btn-no {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.35);
+        font-family: "Orbitron", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 50px;
+        padding: 16px 28px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .btn-no:hover {
+        border-color: rgba(233, 69, 96, 0.5);
+        color: rgba(233, 69, 96, 0.7);
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 215, 0, 0.15);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        transition: all 0.4s ease;
+      }
+      .dot.done {
+        background: #ffd700;
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        border-color: #ffd700;
+      }
+      .dot.current {
+        background: transparent;
+        border-color: #ffd700;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        transform: scale(1.4);
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        15% {
+          transform: translateX(-12px);
+        }
+        30% {
+          transform: translateX(12px);
+        }
+        45% {
+          transform: translateX(-8px);
+        }
+        60% {
+          transform: translateX(8px);
+        }
+        75% {
+          transform: translateX(-4px);
+        }
+        90% {
+          transform: translateX(4px);
+        }
+      }
+
+      .reaction-bubble {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: linear-gradient(
+          135deg,
+          rgba(26, 26, 46, 0.98),
+          rgba(16, 16, 32, 0.98)
+        );
+        border: 1px solid rgba(233, 69, 96, 0.4);
+        border-radius: 16px;
+        padding: 16px 24px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        z-index: 200;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      }
+      .reaction-bubble.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: all;
+      }
+
+      .confetti-piece {
+        position: fixed;
+        pointer-events: none;
+        z-index: 300;
+        animation: confetti-fall linear forwards;
+      }
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes wobble-btn {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-5deg) translateX(-6px);
+        }
+        75% {
+          transform: rotate(5deg) translateX(6px);
+        }
+      }
+      .wobble {
+        animation: wobble-btn 0.35s ease 3;
+      }
+
+      .title-font {
+        font-family: "Cinzel", serif;
+      }
+      .mono-font {
+        font-family: "Orbitron", sans-serif;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="bat-fly"
+      style="top: 12%; animation-duration: 14s; animation-delay: 0s"
+    >
+      🦇
+    </div>
+    <div
+      class="bat-fly"
+      style="
+        top: 55%;
+        animation-duration: 18s;
+        animation-delay: 5s;
+        font-size: 13px;
+      "
+    >
+      🦇
+    </div>
+    <div
+      class="bat-fly"
+      style="
+        top: 80%;
+        animation-duration: 11s;
+        animation-delay: 9s;
+        font-size: 22px;
+      "
+    >
+      🦇
+    </div>
+    <div
+      class="bat-fly"
+      style="
+        top: 35%;
+        animation-duration: 16s;
+        animation-delay: 3s;
+        font-size: 11px;
+      "
+    >
+      🦇
+    </div>
+
+    <!-- Progress dots -->
+    <div
+      id="progress-dots"
+      class="fixed top-6 left-1/2 -translate-x-1/2 z-50 gap-3"
+      style="display: none"
+    ></div>
+
+    <!-- SCREEN 0 — Intro -->
+    <div class="screen active" id="screen-0">
+      <div class="card text-center">
+        <div class="bat-signal">
+          <svg
+            width="56"
+            height="34"
+            viewBox="0 0 90 55"
+            fill="#FFD700"
+            style="filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8))"
+          >
+            <path
+              d="M45 5 C30 5 20 15 10 10 C15 20 12 30 5 35 C15 30 22 33 25 40 C30 35 37 33 45 33 C53 33 60 35 65 40 C68 33 75 30 85 35 C78 30 75 20 80 10 C70 15 60 5 45 5 Z"
+            />
+            <ellipse cx="45" cy="38" rx="8" ry="5" />
+          </svg>
+        </div>
+        <h1
+          class="title-font text-5xl font-black mb-2"
+          style="color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.5)"
+        >
+          I'm Batman.
+        </h1>
+        <p
+          class="mono-font text-xs tracking-widest text-yellow-400/40 uppercase mb-6"
+        >
+          Malabe · Classified 🌙
+        </p>
+        <p class="text-gray-300 leading-relaxed mb-3" style="font-size: 15px">
+          Before we proceed, I need to ask you
+          <span class="text-yellow-400 font-semibold"
+            >a few very important questions.</span
+          >
+          <br /><span class="text-pink-400/70 text-sm"
+            >Also... you look absolutely stunning right now. Just saying.
+            😏</span
+          >
+        </p>
+        <p class="text-gray-500 text-sm mb-10 italic">
+          Alfred is watching. Don't embarrass me. 🥺👀
+        </p>
+        <button class="btn-yes w-full" onclick="goToScreen(1)">
+          🦇 &nbsp;I'm Ready, Batman
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 1 — Childhood crush -->
+    <div class="screen" id="screen-1">
+      <div class="card text-center">
+        <div
+          class="step-badge"
+          style="
+            background: rgba(249, 168, 212, 0.1);
+            border-color: rgba(249, 168, 212, 0.3);
+            color: #f9a8d4;
+          "
+        >
+          💫 &nbsp;Before We Begin...
+        </div>
+        <div class="text-5xl mb-4">🦇💘</div>
+        <h2
+          class="title-font text-2xl font-black mb-3"
+          style="
+            color: #f9a8d4;
+            text-shadow: 0 0 16px rgba(249, 168, 212, 0.4);
+            line-height: 1.3;
+          "
+        >
+          Once upon a time,<br />
+          a little girl had a crush<br />
+          on <span style="color: #ffd700">Batman.</span> 🌙
+        </h2>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+          She drew his cape in her notebooks. She dreamed of Malabe's skyline.
+          She whispered
+          <span class="text-yellow-400 font-semibold"
+            >"I wish he was real"</span
+          >
+          to the stars every single night. 🌟
+        </p>
+        <div
+          style="
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(249, 168, 212, 0.2);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+          "
+        >
+          <p class="text-pink-300 text-sm leading-relaxed italic">
+            Years passed. She grew up. She found someone.<br />
+            Someone who looks her in the eyes and says<br />
+            <span class="text-yellow-400 font-bold text-base"
+              >“I'm Batman.”</span
+            >
+            🦇
+          </p>
+        </div>
+        <p class="text-gray-500 text-xs italic mb-8">
+          Turns out the universe was listening all along. 🥺✨
+        </p>
+        <button
+          class="btn-yes w-full"
+          onclick="goToScreen(2)"
+          style="background: linear-gradient(135deg, #f9a8d4, #ffd700)"
+        >
+          💛 &nbsp;That's literally my story...
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 2 (old 1) -->
+    <div class="screen" id="screen-2">
+      <div class="card text-center">
+        <div class="step-badge">🦇 &nbsp;Question 1 of 4</div>
+        <div class="text-5xl mb-5">🚗</div>
+        <h2 class="title-font text-2xl font-black text-white mb-3">
+          Would you go on a first date in
+          <span style="color: #ffd700">Kalu</span>? 🖤
+        </h2>
+        <p class="text-gray-500 text-sm mb-10 italic">
+          Full romantic songs where I personally sing every single word,
+          directly into your ear, with
+          <span class="text-pink-400">maximum feeling</span>. 🎶😏
+        </p>
+        <div class="flex gap-4">
+          <button class="btn-yes flex-1" onclick="handleAnswer(2, true)">
+            ✅ &nbsp;Yes!
+          </button>
+          <button class="btn-no flex-1" onclick="handleAnswer(2, false)">
+            ❌ &nbsp;No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3 (old 2) -->
+    <div class="screen" id="screen-3">
+      <div class="card text-center">
+        <div class="step-badge">🦇 &nbsp;Question 2 of 4</div>
+        <div class="text-5xl mb-5">🍵</div>
+        <h2 class="title-font text-2xl font-black text-white mb-3">
+          Are you okay with Alfred knowing<br />everything about you? 👴🏻
+        </h2>
+        <p class="text-gray-500 text-sm mb-10 italic">
+          He already does. He says, and I quote:
+          <span class="text-pink-300 font-semibold"
+            >"She sounds delightful, Master Bruce. Don't mess this up."</span
+          >
+          He's 74. He's never wrong. Not once. 🔍
+        </p>
+        <div class="flex gap-4">
+          <button class="btn-yes flex-1" onclick="handleAnswer(3, true)">
+            ✅ &nbsp;Yes!
+          </button>
+          <button class="btn-no flex-1" onclick="handleAnswer(3, false)">
+            ❌ &nbsp;No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4 — spicy kiss question -->
+    <div class="screen" id="screen-4">
+      <div class="card text-center">
+        <div class="step-badge">🦇 &nbsp;Question 3 of 4</div>
+        <div class="text-5xl mb-4">💋🔥</div>
+        <h2
+          class="title-font text-2xl font-black mb-3"
+          style="
+            color: #f9a8d4;
+            text-shadow: 0 0 16px rgba(249, 168, 212, 0.4);
+            line-height: 1.25;
+          "
+        >
+          Can I hold your hand... <br />
+          <span style="color: #ffd700">touch you gently</span>...<br />
+          and maybe <em>just maybe</em> steal a kiss? 🥺
+        </h2>
+        <p class="text-gray-400 text-sm mb-3 leading-relaxed italic">
+          I've rehearsed this moment
+          <span class="text-pink-400 font-semibold">47 times</span> on the
+          rooftop. Alfred timed it. Said my technique was “pathetically
+          endearing.” High praise from a 74-year-old. 👴🏻❤️
+        </p>
+        <p
+          class="text-yellow-400/70 text-xs mb-8 italic"
+          style="font-family: &quot;Raleway&quot;, sans-serif"
+        >
+          🔥
+          <em
+            >*adjusts cape nervously, heart racing at 200 bpm, definitely not
+            sweating*</em
+          >
+          🔥
+        </p>
+        <div class="flex gap-4">
+          <button
+            class="btn-yes flex-1"
+            onclick="playKissAndAnswer()"
+            style="
+              background: linear-gradient(135deg, #f9a8d4, #ffd700);
+              letter-spacing: 1px;
+            "
+          >
+            💋 &nbsp;Yes please!
+          </button>
+          <button class="btn-no flex-1" onclick="handleAnswer(4, false)">
+            ❌ &nbsp;No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 5 (old 4) -->
+    <div class="screen" id="screen-5">
+      <div class="card text-center">
+        <div class="step-badge">🦇 &nbsp;Question 4 of 4</div>
+        <div class="text-5xl mb-5">🌙</div>
+        <h2 class="title-font text-2xl font-black text-white mb-3">
+          Can you handle a man who broods on rooftops at 3 AM...
+          <span style="color: #f9a8d4">thinking about you?</span> 🥺
+        </h2>
+        <p class="text-gray-500 text-sm mb-10 italic">
+          I used to brood about crime. Now I brood about whether you prefer
+          window seat or aisle. It's your fault. You did this to me. 😤💛
+        </p>
+        <div class="flex gap-4">
+          <button class="btn-yes flex-1" onclick="handleAnswer(5, true)">
+            ✅ &nbsp;Yes!
+          </button>
+          <button class="btn-no flex-1" onclick="handleAnswer(5, false)">
+            ❌ &nbsp;No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6 — THE BIG QUESTION -->
+    <div class="screen" id="screen-6">
+      <div class="card text-center" id="final-card">
+        <div
+          class="step-badge"
+          style="
+            background: rgba(255, 215, 0, 0.12);
+            border-color: rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+          "
+        >
+          💛 &nbsp;The Big Question
+        </div>
+        <div
+          class="bat-signal"
+          style="width: 90px; height: 90px; margin-bottom: 20px"
+        >
+          <svg
+            width="44"
+            height="27"
+            viewBox="0 0 90 55"
+            fill="#FFD700"
+            style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 1))"
+          >
+            <path
+              d="M45 5 C30 5 20 15 10 10 C15 20 12 30 5 35 C15 30 22 33 25 40 C30 35 37 33 45 33 C53 33 60 35 65 40 C68 33 75 30 85 35 C78 30 75 20 80 10 C70 15 60 5 45 5 Z"
+            />
+            <ellipse cx="45" cy="38" rx="8" ry="5" />
+          </svg>
+        </div>
+        <h2
+          class="title-font text-3xl font-black mb-2"
+          style="
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            line-height: 1.2;
+          "
+        >
+          Will you be my<br />
+          <span
+            style="
+              color: #f9a8d4;
+              text-shadow: 0 0 20px rgba(249, 168, 212, 0.4);
+            "
+            >Bat Woman?</span
+          >
+        </h2>
+        <p class="text-gray-400 text-sm mt-3 mb-8 leading-relaxed italic">
+          I've fought the Joker, wrestled Bane, and once scared a pigeon off a
+          rooftop in Malabe.<br />
+          But nothing <span class="text-pink-300">absolutely nothing</span>
+          has made my heart race like this moment right now. 🦇💛
+        </p>
+        <p
+          class="text-yellow-400/60 text-xs mb-6 italic"
+          style="font-family: &quot;Raleway&quot;, sans-serif"
+        >
+          🎵
+          <em
+            >*currently serenading you through Kalu's windows, off-key but full
+            send*</em
+          >
+          🎵
+        </p>
+        <div class="flex gap-4" id="final-btns">
+          <button
+            class="btn-yes flex-1"
+            onclick="handleFinalYes()"
+            style="padding: 20px 16px"
+          >
+            🦇 &nbsp;Yes, Batman! 💛
+          </button>
+          <button class="btn-no flex-1" id="no-btn" onclick="handleFinalNo()">
+            ❌ &nbsp;No
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 7 — Celebration -->
+    <div class="screen" id="screen-7">
+      <div class="card text-center">
+        <div class="text-6xl mb-4">🦇💛🌹</div>
+        <h2
+          class="title-font text-4xl font-black mb-4"
+          style="color: #ffd700; text-shadow: 0 0 30px rgba(255, 215, 0, 0.5)"
+        >
+          SHE SAID YES!
+        </h2>
+        <div
+          style="
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+          "
+        >
+          <p class="text-gray-300 text-sm leading-relaxed italic">
+            <span class="text-yellow-400"
+              >*Batman drops to one knee dramatically*</span
+            ><br /><br />
+            Alfred sheds exactly one dignified tear. The Bat-Signal lights up
+            <span class="text-yellow-400">Malabe</span> not because of crime,
+            but because this boy finally stopped brooding and
+            <span class="text-yellow-400 font-bold">did something brave</span
+            >.<br /><br />
+            Somewhere, Kalu honks twice. It's the happiest honk you've ever
+            heard. 🚗💛
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NO Reaction bubble -->
+    <div class="reaction-bubble" id="reaction-bubble">
+      <p
+        class="text-yellow-400 font-bold text-sm mb-1 mono-font"
+        id="reaction-title"
+      >
+        Batman is displeased.
+      </p>
+      <p class="text-gray-400 text-sm leading-relaxed" id="reaction-body">
+        ...
+      </p>
+      <button
+        onclick="dismissReaction()"
+        class="mt-3 text-xs text-yellow-400/50 hover:text-yellow-400 transition-colors mono-font tracking-widest uppercase"
+      >
+        Fine... I'll reconsider 🦇
+      </button>
+    </div>
+
+    <script>
+      const noReactions = {
+        2: {
+          title: "🚗 Kalu is a VIBE.",
+          body: "Kalu has a sunroof, full romantic songs, and a driver who sings every single word directly at you with zero shame. Alfred personally chose the setlist. THINK AGAIN.",
+        },
+        3: {
+          title: "🍵 Too late. Alfred already knows.",
+          body: "He ran a full background check the second you opened this page. He knows your coffee order and your childhood nickname. He says you seem lovely. You have no choice now.",
+        },
+        4: {
+          title: "💋 Batman is BLUSHING.",
+          body: "I put on my best cape for this. Alfred sprayed cologne on it. I practiced the smile in the mirror. I am standing here, hand outstretched, heart completely exposed... and you said No?! The audacity. TRY AGAIN. 🔥",
+        },
+        5: {
+          title: "🌙 It's my LOVE LANGUAGE.",
+          body: "Brooding on rooftops means 'I care deeply but am also protecting 10 million people simultaneously.' Totally reasonable. Very efficient. Try again, please.",
+        },
+      };
+
+      function playKissAndAnswer() {
+        // Generate a kiss smooching sound via Web Audio API
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        // Lip-smack: short noise burst with quick envelope
+        const bufferSize = ctx.sampleRate * 0.18;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          const t = i / ctx.sampleRate;
+          const env = Math.exp(-t * 28) * (1 - Math.exp(-t * 180));
+          data[i] = (Math.random() * 2 - 1) * env * 0.9;
+        }
+        const src = ctx.createBufferSource();
+        src.buffer = buffer;
+        // Bandpass filter for lip-smack character
+        const bp = ctx.createBiquadFilter();
+        bp.type = "bandpass";
+        bp.frequency.value = 900;
+        bp.Q.value = 1.2;
+        src.connect(bp);
+        bp.connect(ctx.destination);
+        src.start();
+        // Add a soft "mwah" tone underneath
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(320, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.2);
+        setTimeout(() => handleAnswer(4, true), 300);
+      }
+
+      const finalNoTaunts = [
+        {
+          title: "😤 Batman does NOT accept 'No'.",
+          body: "I tracked the Joker across 47 countries. A 'No' is just a 'Yes' with extra steps. Try again.",
+        },
+        {
+          title: "🦇 *cape swish* ...Really?",
+          body: "Alfred is crying. Not dramatically — just quietly into his tea. His hands are shaking. Look what you did. LOOK AT IT.",
+        },
+        {
+          title: "🥺 Even Kalu is sad.",
+          body: "Kalu made a small sad honk and the romantic song skipped a beat. It has never done that before. Even the car has feelings. LOOK WHAT YOU'VE DONE.",
+        },
+        {
+          title: "😤 Nothing prepared me for this.",
+          body: "I have a 900-page manual for defeating criminals. It says nothing about stubbornness. Which is IRONIC because I wrote it.",
+        },
+        {
+          title: "🌹 Ok fine... PLEASE? 🥺",
+          body: "Batman said please. Alfred fainted. This is historically unprecedented. The least you can do is say yes. FOR ALFRED.",
+        },
+      ];
+
+      let currentScreen = 0;
+      let noHitCount = 0;
+      let noMoveTimes = 0;
+
+      function goToScreen(n) {
+        const prev = document.getElementById("screen-" + currentScreen);
+        prev.classList.remove("active");
+        prev.classList.add("exit-up");
+        setTimeout(() => prev.classList.remove("exit-up"), 600);
+
+        currentScreen = n;
+        const next = document.getElementById("screen-" + n);
+        next.classList.add("active");
+        updateDots(n);
+      }
+
+      function updateDots(n) {
+        const dots = document.getElementById("progress-dots");
+        if (n >= 2 && n <= 5) {
+          dots.style.display = "flex";
+          dots.innerHTML = "";
+          for (let i = 2; i <= 5; i++) {
+            const d = document.createElement("div");
+            d.className = "dot" + (i < n ? " done" : i === n ? " current" : "");
+            dots.appendChild(d);
+          }
+        } else {
+          dots.style.display = "none";
+        }
+      }
+
+      function handleAnswer(q, isYes) {
+        if (isYes) {
+          goToScreen(q + 1);
+        } else {
+          showReaction(noReactions[q].title, noReactions[q].body);
+          const card = document.querySelector("#screen-" + q + " .card");
+          card.style.animation = "shake 0.6s ease";
+          setTimeout(() => (card.style.animation = ""), 700);
+        }
+      }
+
+      function handleFinalYes() {
+        spawnConfetti();
+        setTimeout(() => goToScreen(7), 400);
+      }
+
+      function handleFinalNo() {
+        noHitCount++;
+        const btn = document.getElementById("no-btn");
+        const offsets = [
+          { marginLeft: "44px" },
+          { marginLeft: "-36px", marginTop: "-10px" },
+          { marginLeft: "60px", marginTop: "10px" },
+        ];
+
+        if (noMoveTimes < 3) {
+          btn.classList.add("wobble");
+          setTimeout(() => btn.classList.remove("wobble"), 700);
+          Object.assign(btn.style, offsets[noMoveTimes]);
+          noMoveTimes++;
+        } else if (noMoveTimes === 3) {
+          btn.style.opacity = "0.12";
+          btn.style.fontSize = "8px";
+          btn.style.padding = "10px 12px";
+          btn.title = "Stop it. 🦇";
+          noMoveTimes++;
+        }
+
+        const taunt =
+          finalNoTaunts[Math.min(noHitCount - 1, finalNoTaunts.length - 1)];
+        showReaction(taunt.title, taunt.body);
+      }
+
+      let reactionTimer = null;
+      function showReaction(title, body) {
+        const el = document.getElementById("reaction-bubble");
+        document.getElementById("reaction-title").textContent = title;
+        document.getElementById("reaction-body").textContent = body;
+        el.classList.add("show");
+        clearTimeout(reactionTimer);
+        reactionTimer = setTimeout(dismissReaction, 5500);
+      }
+
+      function dismissReaction() {
+        document.getElementById("reaction-bubble").classList.remove("show");
+      }
+
+      const confettiColors = [
+        "#FFD700",
+        "#FFA500",
+        "#f9a8d4",
+        "#a78bfa",
+        "#ffffff",
+        "#34d399",
+      ];
+      function spawnConfetti() {
+        for (let i = 0; i < 90; i++) {
+          setTimeout(() => {
+            const el = document.createElement("div");
+            el.className = "confetti-piece";
+            el.style.cssText = `
+            left:${Math.random() * 100}vw; top:-20px;
+            background:${confettiColors[Math.floor(Math.random() * confettiColors.length)]};
+            width:${6 + Math.random() * 10}px; height:${6 + Math.random() * 10}px;
+            border-radius:${Math.random() > 0.5 ? "50%" : "2px"};
+            animation-duration:${1.5 + Math.random() * 2.5}s;
+            animation-delay:${Math.random() * 0.4}s;
+          `;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 4500);
+          }, i * 25);
+        }
+      }
+
+      updateDots(0);
+    </script>
+  </body>
+</html>
